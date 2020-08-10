@@ -1,5 +1,5 @@
 # Minsky
-Simple bot for a DCS themed Discord server.<br />
+Simple bot for a DCS-themed Discord community.<br />
 Helps users find out server DCS and SRS servers info and status.<br />
 ## Commands
 - `?server`- gets server name and address
