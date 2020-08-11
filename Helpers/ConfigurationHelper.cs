@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Minsky.Modules
+namespace Minsky.Helpers
 {
     public static class ConfigurationHelper
     {

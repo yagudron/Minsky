@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Minsky.Modules;
+using Minsky.Helpers;
 
 namespace Minsky.Services
 {
