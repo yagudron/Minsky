@@ -10,16 +10,15 @@ namespace Minsky.Services
 
         private readonly IConfiguration _configuration;
 
-        public string ServerName => _configuration.GetStrValue("ServerName");
-        public string ServerPass => _configuration.GetStrValue("ServerPassword");
-
         private IConfigurationSection ServerSection => _configuration.GetSection("Server");
-        private IConfigurationSection SrsSection => ServerSection.GetSection("Srs");
-        private IConfigurationSection DcsSection => ServerSection.GetSection("Dcs");
+        public string ServerName => ServerSection.GetStrValue("Name");
+        public string ServerPass => ServerSection.GetStrValue("Password");
 
+        private IConfigurationSection SrsSection => ServerSection.GetSection("Srs");
         public string SrsServer => SrsSection.GetStrValue(Ip);
         public int SrsPort => SrsSection.GetIntValue(Port);
 
+        private IConfigurationSection DcsSection => ServerSection.GetSection("Dcs");
         public string DcsServer => DcsSection.GetStrValue(Ip);
         public int DcsPort => DcsSection.GetIntValue(Port);
 

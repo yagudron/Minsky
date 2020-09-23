@@ -34,7 +34,6 @@ namespace Minsky.Modules
 
         [Command("help")]
         [Summary("Get help")]
-        public Task SayAsync() => ReplyAsync(Resources.HelpText);
-
+        public Task GetHelpAsync() => ReplyAsync(Resources.HelpText);
     }
 }
