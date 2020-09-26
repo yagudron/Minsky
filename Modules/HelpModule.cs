@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using Minsky.Helpers;
 using Minsky.Services;
 using System;
 using System.Threading.Tasks;
@@ -27,13 +28,21 @@ namespace Minsky.Modules
         [Command("srs")]
         [Summary("Get SRS address")]
         public Task GetSrsAsync() => ReplyAsync($"`{_configService.SrsServer}:{_configService.SrsPort}`");
-        
+
         [Command("status")]
         [Summary("Get server status")]
-        public async Task GetStatusAsync() => await ReplyAsync(await _checkerService.GetStatusMessage());
+        public async Task GetStatusAsync() => await ReplyAsync(await _checkerService.GetStatusMessageAsync());
 
         [Command("help")]
         [Summary("Get help")]
-        public Task GetHelpAsync() => ReplyAsync(Resources.HelpText);
+        public Task GetHelpAsync() => GetHelpInternalAsync();
+
+        private async Task GetHelpInternalAsync()
+        {
+            var replyTask = Context.User.IsUserDevStaff(_configService.DevStaffRoleId)
+                ? ReplyAsync($"{Resources.HelpText}{Environment.NewLine}{Resources.AdminHelp}.")
+                : ReplyAsync($"{Resources.HelpText}.");
+            await replyTask;
+        }
     }
 }

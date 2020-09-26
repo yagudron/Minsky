@@ -14,13 +14,23 @@ namespace Minsky.Services
             _configService = configurationService;
         }
 
-        public async Task<string> GetStatusMessage()
+        public async Task<string> GetStatusMessageAsync()
         {
-            var dcsPing = IsPortOnline(_configService.DcsServer, _configService.DcsPort);
-            var srsPing = IsPortOnline(_configService.SrsServer, _configService.SrsPort);
+            var dcsPing = IsDcsOnline();
+            var srsPing = IsSrsOnline();
             await Task.WhenAll(dcsPing, srsPing);
-            
+
             return ComposeStatusMessage(dcsPing.Result, srsPing.Result);
+        }
+
+        public async Task<bool> IsDcsOnline()
+        {
+            return await IsPortOnline(_configService.DcsServer, _configService.DcsPort);
+        }
+
+        public async Task<bool> IsSrsOnline()
+        {
+            return await IsPortOnline(_configService.SrsServer, _configService.SrsPort);
         }
 
         private static string ComposeStatusMessage(bool isDcsOnline, bool isSrsOnline)
@@ -36,7 +46,7 @@ namespace Minsky.Services
             using var client = new TcpClient();
 
             var result = client.BeginConnect(host, port, null, null);
-            
+
             success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromMilliseconds(500));
             if (!success)
                 return Task.FromResult(false);

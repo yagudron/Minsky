@@ -61,16 +61,54 @@ namespace Minsky {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to `?start` - start server
+        ///`?restart` - restart server
+        ///`?stop` - stop server.
+        /// </summary>
+        internal static string AdminHelp {
+            get {
+                return ResourceManager.GetString("AdminHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DCS &amp; SRS are running..
+        /// </summary>
+        internal static string AllRunning {
+            get {
+                return ResourceManager.GetString("AllRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t comply..
+        /// </summary>
+        internal static string CantComplyMessage {
+            get {
+                return ResourceManager.GetString("CantComplyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to **I can help!**
         ///Type in commands to get info:
         ///`?server`- server name and address
         ///`?pass` - server password
         ///`?srs` - to get SRS address
-        ///`?status` - to get current server status..
+        ///`?status` - to get current server status.
         /// </summary>
         internal static string HelpText {
             get {
                 return ResourceManager.GetString("HelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Everything is off, nothing to stop..
+        /// </summary>
+        internal static string NothingToStopMessage {
+            get {
+                return ResourceManager.GetString("NothingToStopMessage", resourceCulture);
             }
         }
         
@@ -111,12 +149,102 @@ namespace Minsky {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please use `?restart`..
+        /// </summary>
+        internal static string PleaseUseRestart {
+            get {
+                return ResourceManager.GetString("PleaseUseRestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DCS and SRS are restarted..
+        /// </summary>
+        internal static string RestartedMessage {
+            get {
+                return ResourceManager.GetString("RestartedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restarting, please wait....
+        /// </summary>
+        internal static string RestartingMessage {
+            get {
+                return ResourceManager.GetString("RestartingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} DCS server is {1}
         ///{2} SRS server is {3}.
         /// </summary>
         internal static string ServerStatusMessageTemplate {
             get {
                 return ResourceManager.GetString("ServerStatusMessageTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is running..
+        /// </summary>
+        internal static string SingleRunningTemplate {
+            get {
+                return ResourceManager.GetString("SingleRunningTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops, something went wrong!.
+        /// </summary>
+        internal static string SomethingWentWrongMessage {
+            get {
+                return ResourceManager.GetString("SomethingWentWrongMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DCS and SRS are started..
+        /// </summary>
+        internal static string StartedMessage {
+            get {
+                return ResourceManager.GetString("StartedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starting, please wait....
+        /// </summary>
+        internal static string StartingMessage {
+            get {
+                return ResourceManager.GetString("StartingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DCS &amp; SRS are stopped.
+        /// </summary>
+        internal static string StoppedMessage {
+            get {
+                return ResourceManager.GetString("StoppedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stopping, please wait....
+        /// </summary>
+        internal static string StoppingMessage {
+            get {
+                return ResourceManager.GetString("StoppingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I&apos;m in **DEBUG** mode, won&apos;t comply to you..
+        /// </summary>
+        internal static string WontComplyMessage {
+            get {
+                return ResourceManager.GetString("WontComplyMessage", resourceCulture);
             }
         }
     }

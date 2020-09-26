@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
+using Minsky.Services;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -38,6 +39,15 @@ namespace Minsky.Handlers
                 return;
 
             var context = new SocketCommandContext(_client, message);
+#if DEBUG
+            var configurationService = _services.GetService(typeof(ConfigurationService)) as ConfigurationService;
+            var isMasterUser = context.User.Id == configurationService?.MasterUserId;
+            if (!isMasterUser)
+            {
+                await message.Channel.SendMessageAsync(Resources.WontComplyMessage);
+                return;
+            }
+#endif
             var result = await _commands.ExecuteAsync(context, argPos, _services);
 
             if (!result.IsSuccess || result.Error == CommandError.UnknownCommand)

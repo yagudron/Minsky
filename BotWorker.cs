@@ -38,6 +38,7 @@ namespace Minsky
                 .AddSingleton(provider => configuration)
                 .AddSingleton<CheckerService>()
                 .AddSingleton<ConfigurationService>()
+                .AddSingleton<StartStopService>()
                 .BuildServiceProvider();
 
             _client.Log += Log;
