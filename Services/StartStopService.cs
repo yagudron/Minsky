@@ -29,7 +29,7 @@ namespace Minsky.Services
 
         public void StopServer()
         {
-            //TODO: Improve to be able to stop non-ob server. (AL)
+            //TODO: Improve to be able to stop non-ob server. (AK)
             var processes = Process.GetProcesses();
             var dcsProcess = processes.Where(x => x.MainWindowTitle == "DCS.openbeta_server").FirstOrDefault();
             dcsProcess?.Kill();
