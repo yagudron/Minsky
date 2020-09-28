@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
+using Minsky.Services;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;

@@ -62,9 +62,26 @@ namespace Minsky.Modules
                 return;
             }
 
-            await Task.Delay(16000);
-            await ReplyAsync(Resources.StartedMessage);
-            await ReplyAsync(await _checkerService.GetStatusMessageAsync());
+            //NOTE: Wait for the server to start. (AK)
+            var repliedStatus = false;
+            for (var i = 0; i < 3; i++)
+            {
+                await Task.Delay(6000);
+
+                if (await _checkerService.IsDcsOnline() && await _checkerService.IsSrsOnline())
+                {
+                    repliedStatus = true;
+                    await ReplyAsync(Resources.StartedMessage);
+                    await ReplyAsync(await _checkerService.GetStatusMessageAsync());
+                }
+            }
+
+            if (!repliedStatus)
+            {
+                await Task.Delay(4000);
+                await ReplyAsync(Resources.StartedMessage);
+                await ReplyAsync(await _checkerService.GetStatusMessageAsync());
+            }
         }
 
         private async Task RestartInternalAsync()
