@@ -61,7 +61,9 @@ namespace Minsky {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to `?start` - start server
+        ///   Looks up a localized string similar to 
+        ///Admin commands:
+        ///`?start` - start server
         ///`?restart` - restart server
         ///`?stop` - stop server.
         /// </summary>
@@ -72,7 +74,7 @@ namespace Minsky {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DCS &amp; SRS are running..
+        ///   Looks up a localized string similar to DCS &amp; SRS are running.
         /// </summary>
         internal static string AllRunning {
             get {
@@ -81,7 +83,7 @@ namespace Minsky {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t comply..
+        ///   Looks up a localized string similar to Can&apos;t comply!.
         /// </summary>
         internal static string CantComplyMessage {
             get {
@@ -90,11 +92,8 @@ namespace Minsky {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to **I can help!**
-        ///Type in commands to get info:
-        ///`?server`- server name and address
-        ///`?pass` - server password
-        ///`?srs` - to get SRS address
+        ///   Looks up a localized string similar to Type in commands to get info:
+        ///`?server` - to get server info and srs address
         ///`?status` - to get current server status.
         /// </summary>
         internal static string HelpText {
@@ -104,7 +103,7 @@ namespace Minsky {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Everything is off, nothing to stop..
+        ///   Looks up a localized string similar to Everything is off, nothing to stop!.
         /// </summary>
         internal static string NothingToStopMessage {
             get {
@@ -149,7 +148,7 @@ namespace Minsky {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please use `?restart`..
+        ///   Looks up a localized string similar to Please use `?restart`.
         /// </summary>
         internal static string PleaseUseRestart {
             get {
@@ -158,7 +157,7 @@ namespace Minsky {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DCS and SRS are restarted..
+        ///   Looks up a localized string similar to DCS and SRS are restarted.
         /// </summary>
         internal static string RestartedMessage {
             get {
@@ -186,7 +185,7 @@ namespace Minsky {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} is running..
+        ///   Looks up a localized string similar to {0} is running.
         /// </summary>
         internal static string SingleRunningTemplate {
             get {
@@ -204,7 +203,7 @@ namespace Minsky {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DCS and SRS are started..
+        ///   Looks up a localized string similar to DCS and SRS are started.
         /// </summary>
         internal static string StartedMessage {
             get {
@@ -240,7 +239,16 @@ namespace Minsky {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I&apos;m in **DEBUG** mode, won&apos;t comply to you..
+        ///   Looks up a localized string similar to Unknown command, try `?help`.
+        /// </summary>
+        internal static string UknownCommandMessage {
+            get {
+                return ResourceManager.GetString("UknownCommandMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I&apos;m in **DEBUG** mode, won&apos;t comply to you!.
         /// </summary>
         internal static string WontComplyMessage {
             get {

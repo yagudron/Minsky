@@ -118,27 +118,26 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AdminHelp" xml:space="preserve">
-    <value>`?start` - start server
+    <value>
+Admin commands:
+`?start` - start server
 `?restart` - restart server
 `?stop` - stop server</value>
   </data>
   <data name="AllRunning" xml:space="preserve">
-    <value>DCS &amp; SRS are running.</value>
+    <value>DCS &amp; SRS are running</value>
   </data>
   <data name="CantComplyMessage" xml:space="preserve">
-    <value>Can't comply.</value>
+    <value>Can't comply!</value>
   </data>
   <data name="HelpText" xml:space="preserve">
-    <value>**I can help!**
-Type in commands to get info:
-`?server`- server name and address
-`?pass` - server password
-`?srs` - to get SRS address
+    <value>Type in commands to get info:
+`?server` - to get server info and srs address
 `?status` - to get current server status</value>
     <comment>?help</comment>
   </data>
   <data name="NothingToStopMessage" xml:space="preserve">
-    <value>Everything is off, nothing to stop.</value>
+    <value>Everything is off, nothing to stop!</value>
   </data>
   <data name="OfflineEmoji" xml:space="preserve">
     <value>:red_circle:</value>
@@ -153,10 +152,10 @@ Type in commands to get info:
     <value>**ONLINE**</value>
   </data>
   <data name="PleaseUseRestart" xml:space="preserve">
-    <value>Please use `?restart`.</value>
+    <value>Please use `?restart`</value>
   </data>
   <data name="RestartedMessage" xml:space="preserve">
-    <value>DCS and SRS are restarted.</value>
+    <value>DCS and SRS are restarted</value>
   </data>
   <data name="RestartingMessage" xml:space="preserve">
     <value>Restarting, please wait...</value>
@@ -166,13 +165,13 @@ Type in commands to get info:
 {2} SRS server is {3}</value>
   </data>
   <data name="SingleRunningTemplate" xml:space="preserve">
-    <value>{0} is running.</value>
+    <value>{0} is running</value>
   </data>
   <data name="SomethingWentWrongMessage" xml:space="preserve">
     <value>Oops, something went wrong!</value>
   </data>
   <data name="StartedMessage" xml:space="preserve">
-    <value>DCS and SRS are started.</value>
+    <value>DCS and SRS are started</value>
   </data>
   <data name="StartingMessage" xml:space="preserve">
     <value>Starting, please wait...</value>
@@ -183,7 +182,10 @@ Type in commands to get info:
   <data name="StoppingMessage" xml:space="preserve">
     <value>Stopping, please wait...</value>
   </data>
+  <data name="UknownCommandMessage" xml:space="preserve">
+    <value>Unknown command, try `?help`</value>
+  </data>
   <data name="WontComplyMessage" xml:space="preserve">
-    <value>I'm in **DEBUG** mode, won't comply to you.</value>
+    <value>I'm in **DEBUG** mode, won't comply to you!</value>
   </data>
 </root>

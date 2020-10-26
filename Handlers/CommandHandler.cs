@@ -54,7 +54,9 @@ namespace Minsky.Handlers
         private async Task RunCommand(SocketUserMessage message, int argPos, SocketCommandContext context)
         {
             var result = await _commands.ExecuteAsync(context, argPos, _services);
-            if (!result.IsSuccess || result.Error == CommandError.UnknownCommand)
+            if (!result.IsSuccess && result.Error == CommandError.UnknownCommand)
+                await message.Channel.SendMessageAsync(Resources.UknownCommandMessage);
+            else if (!result.IsSuccess)
                 await message.Channel.SendMessageAsync(result.ErrorReason);
         }
     }

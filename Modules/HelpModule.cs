@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Minsky.Helpers;
 using Minsky.Services;
 using System;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Minsky.Modules
 {
-    public class HelpModule : ModuleBase<SocketCommandContext>
+    public class HelpModule : Base.ModuleBase
     {
         private readonly CheckerService _checkerService;
         private readonly ConfigurationService _configService;
@@ -18,20 +19,21 @@ namespace Minsky.Modules
         }
 
         [Command("server")]
-        [Summary("Get server address")]
-        public Task GetServerAsync() => ReplyAsync($"{_configService.ServerName}{Environment.NewLine}`{_configService.DcsServer}:{_configService.DcsPort}`");
+        [Summary("Get server info")]
+        public Task GetServerAsync() => GetServerInfoAsync();
 
-        [Command("pass")]
-        [Summary("Get server password")]
-        public Task GetPasswordAsync() => ReplyAsync($"`{_configService.ServerPass}`");
-
-        [Command("srs")]
-        [Summary("Get SRS address")]
-        public Task GetSrsAsync() => ReplyAsync($"`{_configService.SrsServer}:{_configService.SrsPort}`");
+        private async Task GetServerInfoAsync()
+        {
+            await SendMessageAsync(
+                $"`ip:   {_configService.DcsServer}:{_configService.DcsPort}`{Environment.NewLine}" +
+                $"`pass: {_configService.ServerPass}`{Environment.NewLine}" +
+                $"`srs:  {_configService.SrsServer}:{_configService.SrsPort}`",
+                _configService.ServerName);
+        }
 
         [Command("status")]
         [Summary("Get server status")]
-        public async Task GetStatusAsync() => await ReplyAsync(await _checkerService.GetStatusMessageAsync());
+        public async Task GetStatusAsync() => await SendMessageAsync(await _checkerService.GetStatusMessageAsync());
 
         [Command("help")]
         [Summary("Get help")]
@@ -39,10 +41,10 @@ namespace Minsky.Modules
 
         private async Task GetHelpInternalAsync()
         {
-            var replyTask = Context.User.IsUserDevStaff(_configService.DevStaffRoleId)
-                ? ReplyAsync($"{Resources.HelpText}{Environment.NewLine}{Resources.AdminHelp}.")
-                : ReplyAsync($"{Resources.HelpText}.");
-            await replyTask;
+            var message = Context.User.IsUserDevStaff(_configService.DevStaffRoleId)
+                ? $"{Resources.HelpText}{Environment.NewLine}{Resources.AdminHelp}"
+                : $"{Resources.HelpText}.";
+            await SendMessageAsync(message, "**I can help!**");
         }
     }
 }
