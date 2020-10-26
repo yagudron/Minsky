@@ -7,9 +7,9 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0-rc.1.20451.14" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="5.0.0-rc.1.20451.7" />
-    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="5.0.0-rc.1.20451.14" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0-rc.2.20475.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="5.0.0-rc.2.20478.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="5.0.0-rc.2.20475.5" />
   </ItemGroup>
 
   <ItemGroup>
