@@ -12,10 +12,10 @@ namespace Minsky.Modules
         private readonly ConfigurationService _configService;
         private readonly StartStopService _startStopService;
 
-        public StartStopModule(CheckerService checkerService, ConfigurationService configurationService, StartStopService watchDogService)
+        public StartStopModule(CheckerService checkerService, ConfigurationService configurationService, StartStopService startStopService)
         {
             _checkerService = checkerService;
-            _startStopService = watchDogService;
+            _startStopService = startStopService;
             _configService = configurationService;
         }
 
