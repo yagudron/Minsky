@@ -133,7 +133,8 @@ Admin commands:
   <data name="HelpText" xml:space="preserve">
     <value>Type in commands to get info:
 `?server` - to get server info and srs address
-`?status` - to get current server status</value>
+`?status` - to get current server status
+`?utc` - to get current UTC time</value>
     <comment>?help</comment>
   </data>
   <data name="NothingToStopMessage" xml:space="preserve">
