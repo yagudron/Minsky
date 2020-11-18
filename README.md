@@ -4,7 +4,9 @@ Helps users find out server DCS and SRS servers info and status.<br />
 ## Commands
 ### General info
 - `?server`- gets server name and address
-- `?status` - return status of SRS and DCS servers.
+- `?status` - return status of SRS and DCS servers
+- `?utc`/`?zulu` - to get current UTC/ZULU time.
+
 ### Commands available to users with Dev Staff role (DevStaffRoleId is specified in the config)
 - `?start` - start server
 - `?restart` - restart server
