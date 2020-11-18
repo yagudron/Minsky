@@ -95,7 +95,7 @@ namespace Minsky {
         ///   Looks up a localized string similar to Type in commands to get info:
         ///`?server` - to get server info and srs address
         ///`?status` - to get current server status
-        ///`?utc` - to get current UTC time.
+        ///`?utc`/`?zulu` - to get current UTC/ZULU time.
         /// </summary>
         internal static string HelpText {
             get {

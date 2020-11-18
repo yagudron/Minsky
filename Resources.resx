@@ -134,7 +134,7 @@ Admin commands:
     <value>Type in commands to get info:
 `?server` - to get server info and srs address
 `?status` - to get current server status
-`?utc` - to get current UTC time</value>
+`?utc`/`?zulu` - to get current UTC/ZULU time</value>
     <comment>?help</comment>
   </data>
   <data name="NothingToStopMessage" xml:space="preserve">

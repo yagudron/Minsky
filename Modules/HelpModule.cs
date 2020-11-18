@@ -35,13 +35,22 @@ namespace Minsky.Modules
         [Summary("Get server status")]
         public async Task GetStatusAsync() => await SendMessageAsync(await _checkerService.GetStatusMessageAsync());
 
+        [Command("zulu")]
+        [Summary("Get current ZULU time")]
+        public async Task GetZuluTimeAsync() => await GetUniversalTime();
+
         [Command("utc")]
         [Summary("Get current UTC time")]
-        public async Task GetUtcTimeAsync() => await SendMessageAsync($"ZULU time - {DateTime.UtcNow:HH:mm}");
+        public async Task GetUtcTimeAsync() => await GetUniversalTime();
 
         [Command("help")]
         [Summary("Get help")]
         public Task GetHelpAsync() => GetHelpInternalAsync();
+
+        private async Task GetUniversalTime()
+        {
+            await SendMessageAsync($"UTC/ZULU time - {DateTime.UtcNow:HH:mm}");
+        }
 
         private async Task GetHelpInternalAsync()
         {
