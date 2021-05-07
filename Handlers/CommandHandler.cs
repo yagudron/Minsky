@@ -28,9 +28,11 @@ namespace Minsky.Handlers
             _client.MessageReceived += HandleCommandAsync;
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         private async Task HandleCommandAsync(SocketMessage messageParam)
+#pragma warning restore CS1998
         {
-            if (!(messageParam is SocketUserMessage message))
+            if (messageParam is not SocketUserMessage message)
                 return;
 
             var argPos = 0;
@@ -48,10 +50,10 @@ namespace Minsky.Handlers
                 return;
             }
 #endif
-            _ = RunCommand(message, argPos, context);
+            _ = RunCommandAsync(message, argPos, context);
         }
 
-        private async Task RunCommand(SocketUserMessage message, int argPos, SocketCommandContext context)
+        private async Task RunCommandAsync(SocketUserMessage message, int argPos, SocketCommandContext context)
         {
             if (message.Content.Length == 1)
                 return;

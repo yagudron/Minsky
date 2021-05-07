@@ -6,7 +6,7 @@ namespace Minsky.Modules.Base
 {
     public class ModuleBase : ModuleBase<SocketCommandContext>
     {
-        protected async Task SendMessageAsync(string text, string title = null)
+        protected async Task SendMessageAsync(string text, string title = default)
         {
             var builder = new EmbedBuilder
             {

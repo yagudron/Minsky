@@ -57,7 +57,7 @@ namespace Minsky
             }
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(-1);
+                await Task.Delay(-1, stoppingToken);
             }
         }
 

@@ -33,14 +33,7 @@ namespace Minsky.Services
             return await IsPortOnline(_configService.SrsServer, _configService.SrsPort);
         }
 
-        private static string ComposeStatusMessage(bool isDcsOnline, bool isSrsOnline)
-        {
-            return string.Format(Resources.ServerStatusMessageTemplate,
-                isDcsOnline.StatusToEmoji(), isDcsOnline.StatusToText(),
-                isSrsOnline.StatusToEmoji(), isSrsOnline.StatusToText());
-        }
-
-        private Task<bool> IsPortOnline(string host, int port)
+        private static Task<bool> IsPortOnline(string host, int port)
         {
             bool success;
             using var client = new TcpClient();
@@ -54,6 +47,13 @@ namespace Minsky.Services
             client.EndConnect(result);
 
             return Task.FromResult(success);
+        }
+
+        private static string ComposeStatusMessage(bool isDcsOnline, bool isSrsOnline)
+        {
+            return string.Format(Resources.ServerStatusMessageTemplate,
+                isDcsOnline.StatusToEmoji(), isDcsOnline.StatusToText(),
+                isSrsOnline.StatusToEmoji(), isSrsOnline.StatusToText());
         }
     }
 }
