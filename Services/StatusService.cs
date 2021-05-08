@@ -17,12 +17,12 @@ namespace Minsky.Services
             _configService = configurationService;
         }
 
-        public async Task<bool> IsDcsOnline(ServerConfiguration server)
+        public static async Task<bool> IsDcsOnline(ServerConfiguration server)
         {
             return await IsPortOnline(server.DcsPort.Ip, server.DcsPort.Port);
         }
 
-        public async Task<bool> IsSrsOnline(ServerConfiguration server)
+        public static async Task<bool> IsSrsOnline(ServerConfiguration server)
         {
             return await IsPortOnline(server.SrsPort.Ip, server.SrsPort.Port);
         }
