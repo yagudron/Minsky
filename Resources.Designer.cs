@@ -62,7 +62,7 @@ namespace Minsky {
         
         /// <summary>
         ///   Looks up a localized string similar to 
-        ///Admin commands:
+        ///Admin commands (for 831st server):
         ///`?start` - start server
         ///`?restart` - restart server
         ///`?stop` - stop server.
@@ -93,8 +93,8 @@ namespace Minsky {
         
         /// <summary>
         ///   Looks up a localized string similar to Type in commands to get info:
-        ///`?server` - to get server info and srs address
-        ///`?status` - to get current server status
+        ///`?servers` - to a list of server infos and srs addresses
+        ///`?status` - to get current server statuses
         ///`?utc`/`?zulu` - to get current UTC/ZULU time.
         /// </summary>
         internal static string HelpText {

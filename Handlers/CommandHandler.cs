@@ -28,9 +28,7 @@ namespace Minsky.Handlers
             _client.MessageReceived += HandleCommandAsync;
         }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         private async Task HandleCommandAsync(SocketMessage messageParam)
-#pragma warning restore CS1998
         {
             if (messageParam is not SocketUserMessage message)
                 return;

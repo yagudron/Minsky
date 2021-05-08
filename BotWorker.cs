@@ -16,15 +16,15 @@ namespace Minsky
     public class BotWorker : BackgroundService
     {
         #region readonly properties
-        
+
         private readonly ILogger<BotWorker> _logger;
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
         private readonly IServiceProvider _services;
         private readonly IConfiguration _configuration;
-        
+
         #endregion
-        
+
         private bool _initialized;
 
         public BotWorker(ILogger<BotWorker> logger, IConfiguration configuration)
@@ -36,7 +36,7 @@ namespace Minsky
             _commands = new CommandService();
             _services = new ServiceCollection()
                 .AddSingleton(provider => configuration)
-                .AddSingleton<CheckerService>()
+                .AddSingleton<StatusService>()
                 .AddSingleton<ConfigurationService>()
                 .AddSingleton<StartStopService>()
                 .BuildServiceProvider();
@@ -69,8 +69,7 @@ namespace Minsky
 
         private async Task InitCommandHanler()
         {
-            var handler = new CommandHandler(_client, _commands, _services);
-            await handler.InitializeAsync();
+            await new CommandHandler(_client, _commands, _services).InitializeAsync();
         }
 
         private Task Log(LogMessage message)

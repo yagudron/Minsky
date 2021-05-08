@@ -15,8 +15,8 @@ namespace Minsky.Services
 
         public void StartServer()
         {
-            Process.Start(_configService.DcsBinaryLocation);
-            Process.Start(_configService.SrsBinaryLocation);
+            Process.Start(_configService.MainServer.DcsBinaryLocaion);
+            Process.Start(_configService.MainServer.SrsBinaryLocation);
         }
 
         public async Task RestartServerAsync()
@@ -26,7 +26,7 @@ namespace Minsky.Services
             StartServer();
         }
 
-        public void StopServer()
+        public static void StopServer()
         {
             //TODO: Improve to be able to stop non-ob server. (AK)
             var processes = Process.GetProcesses();

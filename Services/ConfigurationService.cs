@@ -1,32 +1,20 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Minsky.Entities;
 using Minsky.Helpers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Minsky.Services
 {
     public class ConfigurationService
     {
-        private const string Port = "Port";
-        private const string Ip = "IP";
-        private const string BinaryLocation = "BinaryLocation";
-
         private readonly IConfiguration _configuration;
 
-        public ulong MasterUserId => ulong.Parse(_configuration.GetStrValue("MasterUserId"));
-        public ulong DevStaffRoleId => ulong.Parse(_configuration.GetStrValue("DevStaffRoleId"));
+        public ulong MasterUserId => ulong.Parse(_configuration.GetStrValue(nameof(MasterUserId)));
+        public ulong DevStaffRoleId => ulong.Parse(_configuration.GetStrValue(nameof(DevStaffRoleId)));
 
-        private IConfigurationSection ServerSection => _configuration.GetSection("Server");
-        public string ServerName => ServerSection.GetStrValue("Name");
-        public string ServerPass => ServerSection.GetStrValue("Password");
-
-        private IConfigurationSection SrsSection => ServerSection.GetSection("Srs");
-        public string SrsServer => SrsSection.GetStrValue(Ip);
-        public int SrsPort => SrsSection.GetIntValue(Port);
-        public string SrsBinaryLocation => SrsSection.GetStrValue(BinaryLocation);
-
-        private IConfigurationSection DcsSection => ServerSection.GetSection("Dcs");
-        public string DcsServer => DcsSection.GetStrValue(Ip);
-        public int DcsPort => DcsSection.GetIntValue(Port);
-        public string DcsBinaryLocation => DcsSection.GetStrValue(BinaryLocation);
+        public MainServerConfiguration MainServer => new(_configuration.GetSection(nameof(MainServer)));
+        public IEnumerable<ServerConfiguration> AdditionalServers => _configuration.GetSection(nameof(AdditionalServers)).GetChildren().Select(s => new ServerConfiguration(s));
 
         public ConfigurationService(IConfiguration configuration)
         {
