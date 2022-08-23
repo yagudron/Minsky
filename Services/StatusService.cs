@@ -1,10 +1,8 @@
-﻿using Minsky.Entities;
-using Minsky.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Minsky.Entities;
+using Minsky.Helpers;
 
 namespace Minsky.Services
 {
@@ -29,9 +27,7 @@ namespace Minsky.Services
 
         public async Task<string> GetStatusMessageAsync()
         {
-            return $"{await GetServerStatusMessageAsync(_configService.MainServer)}" +
-                $"{Environment.NewLine}{Environment.NewLine}" +
-                $"{await GetAddititionalServerStatusesAsync(_configService.AdditionalServers)}";
+            return $"{await GetServerStatusMessageAsync(_configService.Server)}";
         }
 
         public async Task<string> GetServerStatusMessageAsync(ServerConfiguration server)
@@ -65,13 +61,6 @@ namespace Minsky.Services
                 string.Format(Resources.ServerStatusMessageTemplate,
                 isDcsOnline.StatusToEmoji(), isDcsOnline.StatusToText(),
                 isSrsOnline.StatusToEmoji(), isSrsOnline.StatusToText());
-        }
-
-        private async Task<string> GetAddititionalServerStatusesAsync(IEnumerable<ServerConfiguration> additionalServers)
-        {
-            var tasks = additionalServers.Select(s => GetServerStatusMessageAsync(s));
-            await Task.WhenAll(tasks);
-            return string.Join(Environment.NewLine, tasks.Select(t => t.Result));
         }
     }
 }

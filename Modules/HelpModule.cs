@@ -1,10 +1,9 @@
-﻿using Discord.Commands;
+﻿using System;
+using System.Threading.Tasks;
+using Discord.Commands;
 using Minsky.Entities;
 using Minsky.Helpers;
 using Minsky.Services;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Minsky.Modules
 {
@@ -19,12 +18,12 @@ namespace Minsky.Modules
             _configService = configurationService;
         }
 
-        [Command("servers")]
-        [Summary("Get servers info")]
+        [Command("server")]
+        [Summary("Get server info")]
         public Task GetServerAsync() => GetServerInfosAsync();
 
         [Command("status")]
-        [Summary("Get servers statuses")]
+        [Summary("Get servers status")]
         public async Task GetStatusAsync() => await SendMessageAsync(await _checkerService.GetStatusMessageAsync());
 
         [Command("zulu")]
@@ -39,15 +38,11 @@ namespace Minsky.Modules
         [Summary("Get help")]
         public Task GetHelpAsync() => GetHelpInternalAsync();
 
-        private async Task GetServerInfosAsync()
-        {
-            await SendMessageAsync($"{GetServerInfo(_configService.MainServer)}" +
-                $"{Environment.NewLine}{Environment.NewLine}" +
-                $"{string.Join(Environment.NewLine, _configService.AdditionalServers.Select(GetServerInfo))}");
-        }
+        private async Task GetServerInfosAsync() => await SendMessageAsync($"{GetServerInfo()}");
 
-        private static string GetServerInfo(ServerConfiguration server)
+        private string GetServerInfo()
         {
+            var server = _configService.Server;
             return $"**{server.Name}**{Environment.NewLine}" +
                 $"`ip:   {server.DcsPort.Ip}:{server.DcsPort.Port}`{Environment.NewLine}" +
                 $"`pass: {server.Password}`{Environment.NewLine}" +

@@ -39,8 +39,8 @@ namespace Minsky.Modules
                 await SendMessageAsync(Resources.CantComplyMessage);
                 return;
             }
-            var dcsOnline = await StatusService.IsDcsOnline(_configService.MainServer);
-            var srsOnline = await StatusService.IsSrsOnline(_configService.MainServer);
+            var dcsOnline = await StatusService.IsDcsOnline(_configService.Server);
+            var srsOnline = await StatusService.IsSrsOnline(_configService.Server);
             if (dcsOnline && srsOnline)
             {
                 await SendMessageAsync($"{Resources.AllRunning} {Resources.PleaseUseRestart}");
@@ -69,10 +69,10 @@ namespace Minsky.Modules
             {
                 await Task.Delay(5000);
 
-                if (await StatusService.IsDcsOnline(_configService.MainServer) && await StatusService.IsSrsOnline(_configService.MainServer))
+                if (await StatusService.IsDcsOnline(_configService.Server) && await StatusService.IsSrsOnline(_configService.Server))
                 {
                     repliedStatus = true;
-                    var statusMessage = await _checkerService.GetServerStatusMessageAsync(_configService.MainServer);
+                    var statusMessage = await _checkerService.GetServerStatusMessageAsync(_configService.Server);
                     await SendMessageAsync($"{statusMessage}", Resources.StartedMessage);
                     break;
                 }
@@ -81,7 +81,7 @@ namespace Minsky.Modules
             if (!repliedStatus)
             {
                 await Task.Delay(5000);
-                var statusMessage = await _checkerService.GetServerStatusMessageAsync(_configService.MainServer);
+                var statusMessage = await _checkerService.GetServerStatusMessageAsync(_configService.Server);
                 await SendMessageAsync($"{statusMessage}", Resources.StartedMessage);
             }
         }
@@ -107,7 +107,7 @@ namespace Minsky.Modules
 
             await Task.Delay(50000);
             await SendMessageAsync(Resources.RestartedMessage);
-            await SendMessageAsync(await _checkerService.GetServerStatusMessageAsync(_configService.MainServer));
+            await SendMessageAsync(await _checkerService.GetServerStatusMessageAsync(_configService.Server));
         }
 
         private async Task StopInternalAsync()
@@ -117,8 +117,8 @@ namespace Minsky.Modules
                 await SendMessageAsync(Resources.CantComplyMessage);
                 return;
             }
-            var dcsOnline = await StatusService.IsDcsOnline(_configService.MainServer);
-            var srsOnline = await StatusService.IsSrsOnline(_configService.MainServer);
+            var dcsOnline = await StatusService.IsDcsOnline(_configService.Server);
+            var srsOnline = await StatusService.IsSrsOnline(_configService.Server);
             if (!dcsOnline && !srsOnline)
             {
                 await SendMessageAsync(Resources.NothingToStopMessage);

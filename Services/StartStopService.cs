@@ -15,8 +15,8 @@ namespace Minsky.Services
 
         public void StartServer()
         {
-            Process.Start(_configService.MainServer.DcsBinaryLocaion);
-            Process.Start(_configService.MainServer.SrsBinaryLocation);
+            Process.Start(_configService.Server.DcsBinaryLocaion);
+            Process.Start(_configService.Server.SrsBinaryLocation);
         }
 
         public async Task RestartServerAsync()
