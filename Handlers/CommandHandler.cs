@@ -47,6 +47,8 @@ namespace Minsky.Handlers
                 await message.Channel.SendMessageAsync(Resources.WontComplyMessage);
                 return;
             }
+            //1011641150014242979
+            //1000261977744089098
 #endif
             _ = RunCommandAsync(message, argPos, context);
         }

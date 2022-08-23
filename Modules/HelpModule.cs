@@ -54,10 +54,7 @@ namespace Minsky.Modules
                 $"`srs:  {server.SrsPort.Ip}:{server.SrsPort.Port}`";
         }
 
-        private async Task GetUniversalTime()
-        {
-            await SendMessageAsync($"UTC/ZULU time - {DateTime.UtcNow:HH:mm}");
-        }
+        private async Task GetUniversalTime() => await SendMessageAsync($"UTC/ZULU time - {DateTime.UtcNow:HH:mm}");
 
         private async Task GetHelpInternalAsync()
         {
