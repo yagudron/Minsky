@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Discord.Commands;
-using Minsky.Entities;
-using Minsky.Helpers;
+using Discord.Interactions;
 using Minsky.Services;
 
 namespace Minsky.Modules
 {
-    public class HelpModule : Base.ModuleBase
+    public sealed class HelpModule : SlashCommandModuleBase
     {
         private readonly StatusService _checkerService;
         private readonly ConfigurationService _configService;
@@ -18,45 +16,20 @@ namespace Minsky.Modules
             _configService = configurationService;
         }
 
-        [Command("server")]
-        [Summary("Get server info")]
-        public Task GetServerAsync() => GetServerInfosAsync();
+        [SlashCommand("server", "Get server info.")]
+        public async Task GetServerAsync() => await RespondAsync($"{GetServerInfo()}");
 
-        [Command("status")]
-        [Summary("Get servers status")]
-        public async Task GetStatusAsync() => await SendMessageAsync(await _checkerService.GetStatusMessageAsync());
-
-        [Command("zulu")]
-        [Summary("Get current UTC/ZULU time")]
-        public async Task GetZuluTimeAsync() => await GetUniversalTime();
-
-        [Command("utc")]
-        [Summary("Get current UTC/ZULU time")]
-        public async Task GetUtcTimeAsync() => await GetUniversalTime();
-
-        [Command("help")]
-        [Summary("Get help")]
-        public Task GetHelpAsync() => GetHelpInternalAsync();
-
-        private async Task GetServerInfosAsync() => await SendMessageAsync($"{GetServerInfo()}");
+        [SlashCommand("status", "Get servers status.")]
+        public async Task GetStatusAsync() => await RespondAsync(await _checkerService.GetStatusMessageAsync());
 
         private string GetServerInfo()
         {
-            var server = _configService.Server;
-            return $"**{server.Name}**{Environment.NewLine}" +
-                $"`ip:   {server.DcsPort.Ip}:{server.DcsPort.Port}`{Environment.NewLine}" +
-                $"`pass: {server.Password}`{Environment.NewLine}" +
-                $"`srs:  {server.SrsPort.Ip}:{server.SrsPort.Port}`";
-        }
-
-        private async Task GetUniversalTime() => await SendMessageAsync($"UTC/ZULU time - {DateTime.UtcNow:HH:mm}");
-
-        private async Task GetHelpInternalAsync()
-        {
-            var message = Context.User.IsUserDevStaff(_configService.DevStaffRoleId)
-                ? $"{Resources.HelpText}{Environment.NewLine}{Resources.AdminHelp}"
-                : $"{Resources.HelpText}.";
-            await SendMessageAsync(message, "**I can help!**");
+            var serverInfo = _configService.Server;
+            var server = $"**{serverInfo.Name}**";
+            var password = !string.IsNullOrEmpty(serverInfo.Password) ? $"`pass: {serverInfo.Password}`{Environment.NewLine}" : string.Empty;
+            var ip = $"`ip:   {serverInfo.DcsPort.Ip}:{serverInfo.DcsPort.Port}`";
+            var srs = $"`srs:  {serverInfo.SrsPort.Ip}:{serverInfo.SrsPort.Port}`";
+            return $"{server}{Environment.NewLine}{ip}{Environment.NewLine}{password}{srs}";
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Minsky.Handlers
 {
+    [Obsolete("Slash command are used now.")]
     public class CommandHandler
     {
         private readonly DiscordSocketClient _client;

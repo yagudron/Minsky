@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Minsky.Modules;
 
 namespace Minsky.Services
 {
-    public class StartStopService
+    public sealed class StartStopService : SlashCommandModuleBase
     {
         private readonly ConfigurationService _configService;
 
@@ -30,9 +31,9 @@ namespace Minsky.Services
         {
             //TODO: Improve to be able to stop non-ob server. (AK)
             var processes = Process.GetProcesses();
-            var dcsProcess = processes.Where(x => x.MainWindowTitle == "DCS.openbeta_server").FirstOrDefault();
+            var dcsProcess = processes.Where(p => p.MainWindowTitle == "DCS.openbeta_server").FirstOrDefault();
             dcsProcess?.Kill();
-            var srsProcess = processes.Where(x => x.MainWindowTitle.StartsWith("DCS-SRS Server")).FirstOrDefault();
+            var srsProcess = processes.Where(p => p.MainWindowTitle.StartsWith("DCS-SRS Server")).FirstOrDefault();
             srsProcess?.Kill();
         }
     }
