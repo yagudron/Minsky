@@ -2,28 +2,21 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
-using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Minsky.Handlers;
 using Minsky.Services;
 
 namespace Minsky
 {
     public class BotWorker : BackgroundService
     {
-        #region readonly properties
-
         private readonly ILogger<BotWorker> _logger;
-        private readonly DiscordSocketClient _client;
-        private readonly CommandService _commands;
         private readonly IServiceProvider _services;
         private readonly IConfiguration _configuration;
-
-        #endregion
 
         private bool _initialized;
 
@@ -31,18 +24,15 @@ namespace Minsky
         {
             _logger = logger;
             _configuration = configuration;
-
-            _client = new DiscordSocketClient();
-            _commands = new CommandService();
             _services = new ServiceCollection()
                 .AddSingleton(provider => configuration)
                 .AddSingleton<StatusService>()
                 .AddSingleton<ConfigurationService>()
+                .AddSingleton<DiscordSocketClient>()
                 .AddSingleton<StartStopService>()
+                .AddSingleton(_ => new InteractionService(_.GetRequiredService<DiscordSocketClient>()))
+                .AddSingleton<InteractionHandler>()
                 .BuildServiceProvider();
-
-            _client.Log += Log;
-            _commands.Log += Log;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -50,8 +40,13 @@ namespace Minsky
             if (!_initialized)
             {
                 var token = _configuration.GetSection("Auth").GetValue<string>("DiscordToken");
-                await InitClient(token);
-                await InitCommandHanler();
+
+                await _services.GetRequiredService<InteractionHandler>().InitializeAsync();
+
+                var client = _services.GetRequiredService<DiscordSocketClient>();
+                await client.LoginAsync(TokenType.Bot, token);
+                await client.StartAsync();
+                client.Log += OnLogAsync;
 
                 _initialized = true;
             }
@@ -61,18 +56,7 @@ namespace Minsky
             }
         }
 
-        private async Task InitClient(string token)
-        {
-            await _client.LoginAsync(TokenType.Bot, token);
-            await _client.StartAsync();
-        }
-
-        private async Task InitCommandHanler()
-        {
-            await new CommandHandler(_client, _commands, _services).InitializeAsync();
-        }
-
-        private Task Log(LogMessage message)
+        private Task OnLogAsync(LogMessage message)
         {
             switch (message.Severity)
             {
