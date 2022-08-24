@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Minsky.Handlers
 {
+    [Obsolete("Slash command are used now.")]
     public class CommandHandler
     {
         private readonly DiscordSocketClient _client;
@@ -33,7 +34,6 @@ namespace Minsky.Handlers
             if (messageParam is not SocketUserMessage message)
                 return;
 
-            //TODO: Makes sense to remove.
             var argPos = 0;
             var isValidCall = message.HasCharPrefix('?', ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos);
             if (!isValidCall || message.Author.IsBot)

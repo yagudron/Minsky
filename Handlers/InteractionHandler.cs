@@ -1,11 +1,11 @@
-﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
+using System;
+using System.Reflection;
+using System.Threading.Tasks;
 
-namespace Minsky
+namespace Minsky.Handlers
 {
     public sealed class InteractionHandler
     {

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Minsky.Handlers;
 using Minsky.Services;
 
 namespace Minsky
@@ -41,7 +42,8 @@ namespace Minsky
             {
                 var token = _configuration.GetSection("Auth").GetValue<string>("DiscordToken");
 
-                await _services.GetRequiredService<InteractionHandler>().InitializeAsync();
+                var handler = _services.GetRequiredService<InteractionHandler>();
+                await handler.InitializeAsync();
 
                 var client = _services.GetRequiredService<DiscordSocketClient>();
                 await client.LoginAsync(TokenType.Bot, token);
