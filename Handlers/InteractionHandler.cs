@@ -23,13 +23,10 @@ namespace Minsky.Handlers
         public async Task InitializeAsync()
         {
             _client.Ready += ReadyAsync;
-            _handler.Log += LogAsync;
 
             await _handler.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
             _client.InteractionCreated += OnInteractionCreatedAsync;
         }
-
-        private async Task LogAsync(LogMessage log) => Console.WriteLine(log);//fix
 
         private async Task ReadyAsync()
         {

@@ -12,7 +12,7 @@ namespace Minsky.Modules
             {
                 Title = title,
                 Description = text,
-                Color = Color.DarkMagenta,
+                Color = new Color(252, 68, 92),
             };
 
             await Context.Interaction.RespondAsync(embed: builder.Build());
