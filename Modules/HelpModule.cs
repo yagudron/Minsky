@@ -29,7 +29,8 @@ namespace Minsky.Modules
             var password = !string.IsNullOrEmpty(serverInfo.Password) ? $"`pass: {serverInfo.Password}`{Environment.NewLine}" : string.Empty;
             var ip = $"`ip:   {serverInfo.DcsPort.Ip}:{serverInfo.DcsPort.Port}`";
             var srs = $"`srs:  {serverInfo.SrsPort.Ip}:{serverInfo.SrsPort.Port}`";
-            return $"{server}{Environment.NewLine}{ip}{Environment.NewLine}{password}{srs}";
+            var gci = !string.IsNullOrEmpty(serverInfo.GciLink) ? $"{Environment.NewLine}{Environment.NewLine}[**Skeaker GCI**]({serverInfo.GciLink})" : string.Empty;
+            return $"{server}{Environment.NewLine}{ip}{Environment.NewLine}{password}{srs}{gci}";
         }
     }
 }
