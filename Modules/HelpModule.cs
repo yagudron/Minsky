@@ -10,7 +10,7 @@ namespace Minsky.Modules
         private readonly StatusService _checkerService;
         private readonly ConfigurationService _configService;
 
-        public HelpModule(StatusService checkerService, ConfigurationService configurationService)
+        public HelpModule(StatusService checkerService, ConfigurationService configurationService) : base(configurationService)
         {
             _checkerService = checkerService;
             _configService = configurationService;
@@ -29,7 +29,10 @@ namespace Minsky.Modules
             var password = !string.IsNullOrEmpty(serverInfo.Password) ? $"`pass: {serverInfo.Password}`{Environment.NewLine}" : string.Empty;
             var ip = $"`ip:   {serverInfo.DcsPort.Ip}:{serverInfo.DcsPort.Port}`";
             var srs = $"`srs:  {serverInfo.SrsPort.Ip}:{serverInfo.SrsPort.Port}`";
-            var gci = !string.IsNullOrEmpty(serverInfo.GciLink) ? $"{Environment.NewLine}{Environment.NewLine}[**Skeaker GCI**]({serverInfo.GciLink})" : string.Empty;
+
+            var hasGci = !string.IsNullOrEmpty(serverInfo.GciLinkUri) && !string.IsNullOrEmpty(serverInfo.GciLinkTitle);
+            var gci = hasGci ? $"{Environment.NewLine}{Environment.NewLine}[{serverInfo.GciLinkTitle}]({serverInfo.GciLinkUri})" : string.Empty;
+            
             return $"{server}{Environment.NewLine}{ip}{Environment.NewLine}{password}{srs}{gci}";
         }
     }

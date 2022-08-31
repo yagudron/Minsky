@@ -9,7 +9,7 @@ namespace Minsky.Services
     {
         private readonly ConfigurationService _configService;
 
-        public StartStopService(ConfigurationService configurationService)
+        public StartStopService(ConfigurationService configurationService) : base(configurationService)
         {
             _configService = configurationService;
         }

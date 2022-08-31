@@ -14,7 +14,8 @@ namespace Minsky.Entities
 
         public string DcsLogsLocation { get; private set; }
         public string DcsBinaryLocaion { get; private set; }
-        public string GciLink { get; private set; }
+        public string GciLinkTitle { get; private set; }
+        public string GciLinkUri { get; private set; }
 
         public string SrsBinaryLocation { get; private set; }
 
@@ -27,7 +28,8 @@ namespace Minsky.Entities
             DcsLogsLocation = section.GetStrValue(nameof(DcsLogsLocation));
             DcsBinaryLocaion = section.GetStrValue(nameof(DcsBinaryLocaion));
             SrsBinaryLocation = section.GetStrValue(nameof(SrsBinaryLocation));
-            GciLink = section.GetStrValue(nameof(GciLink));
+            GciLinkUri = section.GetStrValue(nameof(GciLinkUri));
+            GciLinkTitle = section.GetStrValue(nameof(GciLinkTitle));
             IsOpenBeta = section.GetBoolValue(nameof(IsOpenBeta));
         }
     }
