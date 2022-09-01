@@ -161,10 +161,6 @@ Admin commands (for 831st server):
   <data name="RestartingMessage" xml:space="preserve">
     <value>Restarting, please wait...</value>
   </data>
-  <data name="ServerStatusMessageTemplate" xml:space="preserve">
-    <value>{0} DCS server is {1}
-{2} SRS server is {3}</value>
-  </data>
   <data name="SingleRunningTemplate" xml:space="preserve">
     <value>{0} is running</value>
   </data>

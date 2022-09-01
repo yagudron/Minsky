@@ -19,7 +19,7 @@ namespace Minsky {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -172,16 +172,6 @@ namespace Minsky {
         internal static string RestartingMessage {
             get {
                 return ResourceManager.GetString("RestartingMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} DCS server is {1}
-        ///{2} SRS server is {3}.
-        /// </summary>
-        internal static string ServerStatusMessageTemplate {
-            get {
-                return ResourceManager.GetString("ServerStatusMessageTemplate", resourceCulture);
             }
         }
         
