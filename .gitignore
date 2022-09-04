@@ -363,3 +363,4 @@ FodyWeavers.xsd
 
 # Production appsettings
 appsettings.kestrel.json
+appsettings.kestrel.test.json
