@@ -1,11 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord.Interactions;
+﻿using Discord.Interactions;
+using Minsky.Entities;
 using Minsky.Entities.Integration.Sneaker;
 using Minsky.Helpers;
 using Minsky.Integaration;
 using Minsky.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Minsky.Modules
 {
@@ -13,34 +15,55 @@ namespace Minsky.Modules
     {
         private readonly StatusService _statusService;
         private readonly ConfigurationService _configService;
+        private readonly SneakerApiClient _sneakerApiClient;
 
-        public HelpModule(StatusService statusService, ConfigurationService configurationService) : base(configurationService)
+        public HelpModule(
+            StatusService statusService,
+            ConfigurationService configurationService,
+            SneakerApiClient sneakerApiClient) : base(configurationService)
         {
             _statusService = statusService;
             _configService = configurationService;
+            _sneakerApiClient = sneakerApiClient;
         }
 
         [SlashCommand("server", "Get server info.")]
-        public async Task GetServerAsync()
+        public async Task GetServerAsync2()
         {
-            var sneakerApiClient = new SneakerApiClient();
+            var sneakerInfos = await _sneakerApiClient.GetServerInfosAsync(_configService.SneakerApiAdress);
+            var serverConfigs = _configService.Servers.OrderByDescending(c => c.Type).ToList();
+            var embedBuilder = GetDefaultEmbedBuilder();
 
-            var sneakerInfo = sneakerApiClient.GetServerInfoAsync();
-            var serverStaus = _statusService.GetServerStatusAsync(_configService.Server);
-            await Task.WhenAll(sneakerInfo, serverStaus);
+            foreach (var serverConfig in serverConfigs)
+            {
+                var sneakerInfo = GetServerSneakerInfo(serverConfig, sneakerInfos);
+                var portStatus = await _statusService.GetServerStatusAsync(serverConfig);
 
-            var serverInfo = _configService.Server;
-            var serverName = !string.IsNullOrEmpty(sneakerInfo.Result?.name) ? $"**{sneakerInfo?.Result.name}**" : $"**{serverInfo.Name}**";
-            var ip = $"{serverStaus.Result.dcsOnline.StatusToEmoji()} **DSC:**   {serverInfo.DcsPort.Ip}:{serverInfo.DcsPort.Port}";
-            var srs = $"{serverStaus.Result.srsOnline.StatusToEmoji()} **SRS:**  {serverInfo.SrsPort.Ip}:{serverInfo.SrsPort.Port}";
-            var password = !string.IsNullOrEmpty(serverInfo.Password) ? $"**PASS:** {serverInfo.Password}{Environment.NewLine}" : string.Empty;
+                var serverName = !string.IsNullOrEmpty(sneakerInfo.name) ? $"**{sneakerInfo.name}**" : $"**{serverConfig.Name}**";
+                var ip = $"{portStatus.DcsOnline.StatusToEmoji()} **DSC:**   {serverConfig.DcsPort.Ip}:{serverConfig.DcsPort.Port}";
+                var srs = $"{portStatus.SrsOnline.StatusToEmoji()} **SRS:**  {serverConfig.SrsPort.Ip}:{serverConfig.SrsPort.Port}";
+                var password = !string.IsNullOrEmpty(serverConfig.Password) ? $"**PASS:** {serverConfig.Password}{Environment.NewLine}" : string.Empty;
+                var players = ComposeGetPlayerList(sneakerInfo);
 
-            var hasGci = !string.IsNullOrEmpty(serverInfo.GciLinkUri) && !string.IsNullOrEmpty(serverInfo.GciLinkTitle);
-            var gci = hasGci ? $"{Environment.NewLine}{Environment.NewLine}[{serverInfo.GciLinkTitle}]({serverInfo.GciLinkUri})" : string.Empty;
-            var players = ComposeGetPlayerList(sneakerInfo.Result);
+                embedBuilder.AddField(serverName, $"{ip}{Environment.NewLine}{password}{srs}{players}{Environment.NewLine}");
+            }
 
-            var result = $"{serverName}{Environment.NewLine}{ip}{Environment.NewLine}{password}{srs}{gci}{players}";
-            await RespondAsync(result);
+            var hasGci = !string.IsNullOrEmpty(_configService.GciLinkUri) && !string.IsNullOrEmpty(_configService.GciLinkTitle);
+            if (hasGci)
+                embedBuilder.AddField("GCI", $"[{_configService.GciLinkTitle}]({_configService.GciLinkUri})");
+
+            await RespondAsync(embedBuilder);
+        }
+
+        private ServerInfoContract GetServerSneakerInfo(ServerConfiguration serverConfig, IEnumerable<ServerInfoContract> infos)
+        {
+            var serverType = serverConfig.Type;
+            if (serverType == Entities.Enums.ServerType.Pvp)
+                return infos.FirstOrDefault(i => i.name.ToLowerInvariant().Contains(serverType.ToString().ToLowerInvariant()));
+            else if (serverType == Entities.Enums.ServerType.Pve)
+                return infos.FirstOrDefault(i => i.name.ToLowerInvariant().Contains(serverType.ToString().ToLowerInvariant()));
+
+            throw new InvalidOperationException("Server configs are not matching API response.");
         }
 
         private static string ComposeGetPlayerList(ServerInfoContract sneakerInfo)
@@ -52,7 +75,7 @@ namespace Minsky.Modules
             if (!sneakerInfo.players.Any())
                 return $"{result}{Environment.NewLine}No active players.";
             else
-                sneakerInfo.players.ForEach(p => result = result + $"{Environment.NewLine}{p.name} ({p.type})");
+                sneakerInfo.players.ForEach(p => result += $"{Environment.NewLine}{p.name} ({p.type})");
 
             return result;
         }

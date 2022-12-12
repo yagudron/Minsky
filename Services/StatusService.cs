@@ -7,15 +7,15 @@ namespace Minsky.Services
 {
     public class StatusService
     {
-        public async Task<(bool dcsOnline, bool srsOnline)> GetServerStatusAsync(ServerConfiguration server)
+        public async Task<ServerStatus> GetServerStatusAsync(ServerConfiguration server)
         {
             var dcsPing = IsPortOnline(server.DcsPort.Ip, server.DcsPort.Port);
             var srsPing = IsPortOnline(server.SrsPort.Ip, server.SrsPort.Port);
             await Task.WhenAll(dcsPing, srsPing);
 
-            return (dcsPing.Result, srsPing.Result);
+            return new ServerStatus(dcsPing.Result, srsPing.Result);
         }
-        
+
         private static Task<bool> IsPortOnline(string host, int port)
         {
             bool success;

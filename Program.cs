@@ -12,7 +12,7 @@ namespace Minsky
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
             .UseWindowsService()
-            .ConfigureLogging(loggerFactory => loggerFactory.AddEventLog())
+            .ConfigureLogging(loggerFactory => loggerFactory.AddEventSourceLogger())
             .ConfigureServices((_, services) =>
             {
                 services.AddHostedService<BotWorker>();
