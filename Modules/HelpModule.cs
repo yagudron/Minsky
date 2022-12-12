@@ -40,17 +40,24 @@ namespace Minsky.Modules
                 var portStatus = await _statusService.GetServerStatusAsync(serverConfig);
 
                 var serverName = !string.IsNullOrEmpty(sneakerInfo.name) ? $"**{sneakerInfo.name}**" : $"**{serverConfig.Name}**";
-                var ip = $"{portStatus.DcsOnline.StatusToEmoji()} **DSC:**   {serverConfig.DcsPort.Ip}:{serverConfig.DcsPort.Port}";
+                var ip = $"{portStatus.DcsOnline.StatusToEmoji()} **DCS:**   {serverConfig.DcsPort.Ip}:{serverConfig.DcsPort.Port}";
                 var srs = $"{portStatus.SrsOnline.StatusToEmoji()} **SRS:**  {serverConfig.SrsPort.Ip}:{serverConfig.SrsPort.Port}";
                 var password = !string.IsNullOrEmpty(serverConfig.Password) ? $"**PASS:** {serverConfig.Password}{Environment.NewLine}" : string.Empty;
-                var players = ComposeGetPlayerList(sneakerInfo);
 
-                embedBuilder.AddField(serverName, $"{ip}{Environment.NewLine}{password}{srs}{players}{Environment.NewLine}");
+                embedBuilder.AddField(serverName, $"{ip}{Environment.NewLine}{password}{srs}", inline: true);
+
+                var playerCount = sneakerInfo.players.Count();
+                var playerListTitle = playerCount > 0 ? $"Players ({playerCount})" : "Players";
+                embedBuilder.AddField(playerListTitle, ComposePlayerList(sneakerInfo));
             }
 
             var hasGci = !string.IsNullOrEmpty(_configService.GciLinkUri) && !string.IsNullOrEmpty(_configService.GciLinkTitle);
             if (hasGci)
-                embedBuilder.AddField("GCI", $"[{_configService.GciLinkTitle}]({_configService.GciLinkUri})");
+                embedBuilder.AddField("GCI", $"[{_configService.GciLinkTitle}]({_configService.GciLinkUri})", inline: true);
+
+            var hasAbout = !string.IsNullOrEmpty(_configService.AboutLinkTitle) && !string.IsNullOrEmpty(_configService.AboutLinkUri);
+            if (hasAbout)
+                embedBuilder.AddField("About", $"[{_configService.AboutLinkTitle}]({_configService.AboutLinkUri})", inline: true);
 
             await RespondAsync(embedBuilder);
         }
@@ -66,12 +73,12 @@ namespace Minsky.Modules
             throw new InvalidOperationException("Server configs are not matching API response.");
         }
 
-        private static string ComposeGetPlayerList(ServerInfoContract sneakerInfo)
+        private static string ComposePlayerList(ServerInfoContract sneakerInfo)
         {
+            var result = string.Empty;
             if (sneakerInfo?.players == null)
-                return string.Empty;
+                return result;
 
-            var result = $"{Environment.NewLine}{Environment.NewLine}**Players:**";
             if (!sneakerInfo.players.Any())
                 return $"{result}{Environment.NewLine}No active players.";
             else
