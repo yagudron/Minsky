@@ -15,17 +15,15 @@ namespace Minsky.Modules
             _configService = configurationService;
         }
 
-        protected async Task RespondAsync(string text, string title = default)
+        protected EmbedBuilder GetDefaultEmbedBuilder()
         {
             var embedColor = (System.Drawing.Color)new ColorConverter().ConvertFromString(_configService.Miscellaneous.EmbedColor);
-            var builder = new EmbedBuilder
+            return new EmbedBuilder
             {
-                Title = title,
-                Description = text,
                 Color = new Discord.Color(embedColor.R, embedColor.G, embedColor.B),
             };
-
-            await Context.Interaction.RespondAsync(embed: builder.Build());
         }
+
+        protected async Task RespondAsync(EmbedBuilder builder) => await Context.Interaction.RespondAsync(embed: builder.Build());
     }
 }

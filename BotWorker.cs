@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Minsky.Handlers;
+using Minsky.Integaration;
 using Minsky.Services;
 
 namespace Minsky
@@ -30,9 +31,9 @@ namespace Minsky
                 .AddSingleton<StatusService>()
                 .AddSingleton<ConfigurationService>()
                 .AddSingleton<DiscordSocketClient>()
-                .AddSingleton<StartStopService>()
                 .AddSingleton(_ => new InteractionService(_.GetRequiredService<DiscordSocketClient>()))
                 .AddSingleton<InteractionHandler>()
+                .AddTransient<SneakerApiClient>()
                 .BuildServiceProvider();
         }
 
@@ -40,8 +41,11 @@ namespace Minsky
         {
             if (!_initialized)
             {
-                var token = _configuration.GetSection("Auth").GetValue<string>("DiscordToken");
-
+                var tokenKeyName = "DiscordToken";
+#if DEBUG
+                tokenKeyName = "DiscordTokenDebug";
+#endif
+                var token = _configuration.GetSection("Auth").GetValue<string>(tokenKeyName);
                 var handler = _services.GetRequiredService<InteractionHandler>();
                 await handler.InitializeAsync();
 

@@ -1,36 +1,19 @@
-﻿using System;
+﻿using Minsky.Entities;
+using System;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Minsky.Entities;
-using Minsky.Helpers;
 
 namespace Minsky.Services
 {
     public class StatusService
     {
-        private readonly ConfigurationService _configService;
-
-        public StatusService(ConfigurationService configurationService)
+        public async Task<ServerStatus> GetServerStatusAsync(ServerConfiguration server)
         {
-            _configService = configurationService;
-        }
-
-        public static async Task<bool> IsDcsOnline(ServerConfiguration server) =>
-            await IsPortOnline(server.DcsPort.Ip, server.DcsPort.Port);
-
-        public static async Task<bool> IsSrsOnline(ServerConfiguration server) =>
-            await IsPortOnline(server.SrsPort.Ip, server.SrsPort.Port);
-
-        public async Task<string> GetStatusMessageAsync() =>
-            $"{await GetServerStatusMessageAsync(_configService.Server)}";
-
-        public async Task<string> GetServerStatusMessageAsync(ServerConfiguration server)
-        {
-            var dcsPing = IsDcsOnline(server);
-            var srsPing = IsSrsOnline(server);
+            var dcsPing = IsPortOnline(server.DcsPort.Ip, server.DcsPort.Port);
+            var srsPing = IsPortOnline(server.SrsPort.Ip, server.SrsPort.Port);
             await Task.WhenAll(dcsPing, srsPing);
 
-            return ComposeStatusMessage(server.Name, dcsPing.Result, srsPing.Result);
+            return new ServerStatus(dcsPing.Result, srsPing.Result);
         }
 
         private static Task<bool> IsPortOnline(string host, int port)
@@ -47,14 +30,6 @@ namespace Minsky.Services
             client.EndConnect(result);
 
             return Task.FromResult(success);
-        }
-
-        private static string ComposeStatusMessage(string serverName, bool isDcsOnline, bool isSrsOnline)
-        {
-            return $"**{serverName}**{Environment.NewLine}" +
-                string.Format(Resources.ServerStatusMessageTemplate,
-                isDcsOnline.StatusToEmoji(), isDcsOnline.StatusToText(),
-                isSrsOnline.StatusToEmoji(), isSrsOnline.StatusToText());
         }
     }
 }
