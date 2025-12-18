@@ -7,7 +7,7 @@ namespace Minsky.Services
 {
     public class StatusService
     {
-        public async Task<ServerStatus> GetServerStatusAsync(ServerConfiguration server)
+        public static async Task<ServerStatus> GetServerStatusAsync(ServerConfiguration server)
         {
             var dcsPing = IsPortOnline(server.DcsPort.Ip, server.DcsPort.Port);
             var srsPing = IsPortOnline(server.SrsPort.Ip, server.SrsPort.Port);

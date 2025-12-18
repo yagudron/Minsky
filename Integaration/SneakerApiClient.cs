@@ -8,7 +8,7 @@ namespace Minsky.Integaration
 {
     public sealed class SneakerApiClient
     {
-        public async Task<IEnumerable<ServerInfoContract>> GetServerInfosAsync(string apiAdress)
+        public static async Task<IEnumerable<ServerInfoContract>> GetServerInfosAsync(string apiAdress)
         {
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();

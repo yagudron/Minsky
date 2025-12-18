@@ -156,14 +156,14 @@ namespace Minsky.Modules
         [SlashCommand("servers", "Get servers info.")]
         public async Task GetServerAsync2()
         {
-            var sneakerInfos = await _sneakerApiClient.GetServerInfosAsync(_configService.SneakerApiAdress);
+            var sneakerInfos = await SneakerApiClient.GetServerInfosAsync(_configService.SneakerApiAdress);
             var serverConfigs = _configService.Servers.OrderByDescending(c => c.Name).ToList();
             var embedBuilder = GetDefaultEmbedBuilder().WithTitle("Servers info");
 
             foreach (var serverConfig in serverConfigs)
             {
                 var sneakerInfo = GetServerSneakerInfo(serverConfig, sneakerInfos);
-                var portStatus = await _statusService.GetServerStatusAsync(serverConfig);
+                var portStatus = await StatusService.GetServerStatusAsync(serverConfig);
 
                 var serverName = $"**{serverConfig.DisplayName}**";
                 var ip = $"{portStatus.DcsOnline.StatusToEmoji()} **DCS:** {serverConfig.DcsPort.Ip}:{serverConfig.DcsPort.Port}";
